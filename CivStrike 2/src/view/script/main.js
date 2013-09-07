@@ -8,19 +8,16 @@ function myGetEvent(evt) {
 	myObj.left = document.body.scrollLeft + myEvent.clientX + 15; // X表示位置
 	myObj.top = document.body.scrollTop + myEvent.clientY + 15; // Y表示位置
 }
+
+mouse_x = 0;
+mouse_y = 0;
+window.document.onmousemove = myGetEvent;	// マウスを動かした。
+function myGetEvent( evt ){	
+	myEvent = ( evt ) ? evt : window.event;	// FireFox 対策
+	mouse_x = document.body.scrollLeft + myEvent.clientX;	// X表示位置
+	mouse_y = document.body.scrollTop + myEvent.clientY;	// Y表示位置
+}	
 window.onload = function() {
-	// マウス変数の作成。コピペ。
-	mouse_x = 0;
-	mouse_y = 0;
-	window.document.onmousemove = function(evt) {
-		if (evt) {
-			mouse_x = evt.offsetX;
-			mouse_y = evt.offsetY;
-		} else {
-			mouse_x = event.x + document.body.scrollLeft;
-			mouse_y = event.y + document.body.scrollTop;
-		}
-	}
 	// ゲームウィンドウの作成
 	var game = new Game(800, 600);
 	// フレームレートの設定する
@@ -406,7 +403,7 @@ window.onload = function() {
 						},// ドラッグ＆ドロップで移動
 						ontouchmove : function() {
 							this.x = mouse_x - 12;
-							this.y = mouse_y - 27;
+							this.y = mouse_y - 60;
 						},
 						ontouchstart : function() {
 							this.hang = true;
@@ -417,7 +414,7 @@ window.onload = function() {
 						ontouchend : function() {
 							this.hang = false;
 							var map_x = mouse_x - screen_x - 12;
-							var map_y = mouse_y - screen_y - 27;
+							var map_y = mouse_y - screen_y - 60;
 							map_x = Math.floor((map_x) / 96);
 							map_y = Math
 									.floor((map_y - ((map_x % 2) * 55 - 54 + 16)) / 108);
